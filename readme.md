@@ -1,20 +1,22 @@
 # corecfxs
 
-本脚本可以通过跨 space 打铭文
+[中文说明](./readmezh.md)
 
-## 使用方法
+This script can engrave inscriptions across spaces.
 
-1. 安装 node.js 环境
-2. 使用 git 下载本项目: `git clone https://github.com/0x01010110/corecfxs.git`
-3. npm install
-4. 修改 config.json 文件的 `privateKey` 填入私钥. 需要确保账户里有足够的 CFX 用于支付手续费 
-5. 启动脚本  `node index.js`
+## Usage
 
-### 说明
+1. Install the node.js environment.
+2. Use git to download this project: `git clone https://github.com/0x01010110/corecfxs.git`
+3. Run `npm install`.
+4. Modify the `privateKey` in the `config.json` file and fill in your private key. Make sure your account has enough CFX to cover transaction fees.
+5. Start the script with `node index.js`.
 
-1. 目前采用固定的 gasPrice 100 GDrip, 可在配置文件中配置
+### Notes
 
-## 获取映射地址
+1. Currently, a fixed gasPrice of 100 GDrip is used, and it can be configured in the configuration file.
+
+## Obtain Mapping Address
 
 ```shell
 node getMapAddress.js
