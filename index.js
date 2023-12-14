@@ -4,11 +4,12 @@ const conflux = new Conflux({
     url: 'https://main.confluxrpc.com',
     networkId: 1029,
 });
+const CrossSpaceCall = conflux.InternalContract('CrossSpaceCall');
 
 const privateKey = require('./config.json').privateKey;
 const account = conflux.wallet.addPrivateKey(privateKey);
 
-const CrossSpaceCall = conflux.InternalContract('CrossSpaceCall');
+const gasPrice = require('./config.json').gasPrice || 100;
 
 async function main() {
     
@@ -38,7 +39,7 @@ async function oneRound() {
             hash = await CrossSpaceCall.transferEVM('0xc6e865c213c89ca42a622c5572d19f00d84d7a16').sendTransaction({
                 from: account.address,
                 nonce: nonce + BigInt(i),
-                // gasPrice: Drip.fromGDrip(5),  // call also specify the gasPrice
+                gasPrice: Drip.fromGDrip(gasPrice),  // call also specify the gasPrice
             });
             console.log(`Sending ${i}`, hash);
         } catch(err) {
