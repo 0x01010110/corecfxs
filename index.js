@@ -1,5 +1,6 @@
 const { Conflux, Drip } = require('js-conflux-sdk');
 const CONFIG = require('./config.json');
+const { waitMilliseconds } = require('./utils');
 
 const conflux = new Conflux({
     url: CONFIG.url,
@@ -25,10 +26,6 @@ async function main() {
         await waitMilliseconds(10 * 1000);
     }
 
-}
-
-async function waitMilliseconds(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function oneRound() {
