@@ -1,15 +1,17 @@
 const { Conflux, Drip } = require('js-conflux-sdk');
+const CONFIG = require('./config.json');
 
 const conflux = new Conflux({
-    url: 'https://main.confluxrpc.com',
-    networkId: 1029,
+    url: CONFIG.url,
+    networkId: CONFIG.networkId,
 });
+
 const CrossSpaceCall = conflux.InternalContract('CrossSpaceCall');
 
-const privateKey = require('./config.json').privateKey;
+const privateKey = CONFIG.privateKey;
 const account = conflux.wallet.addPrivateKey(privateKey);
 
-const gasPrice = require('./config.json').gasPrice || 100;
+const gasPrice = CONFIG.gasPrice || 100;
 
 async function main() {
     
@@ -36,7 +38,7 @@ async function oneRound() {
     // let nonce = await conflux.txpool.nextNonce(account.address);
     for(let i = 0; i < batch; i++) {
         try {
-            hash = await CrossSpaceCall.transferEVM('0xc6e865c213c89ca42a622c5572d19f00d84d7a16').sendTransaction({
+            hash = await CrossSpaceCall.transferEVM(CONFIG.cfxs).sendTransaction({
                 from: account.address,
                 nonce: nonce + BigInt(i),
                 gasPrice: Drip.fromGDrip(gasPrice),  // call also specify the gasPrice

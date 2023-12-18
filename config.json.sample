@@ -1,0 +1,8 @@
+{
+    "privateKey": "0x",
+    "gasPrice": 300,
+    "url": "https://main.confluxrpc.com",
+    "networkId": 1029,
+    "cfxs": "0xc6e865c213c89ca42a622c5572d19f00d84d7a16",
+    "eSpaceUrl": ""
+}
