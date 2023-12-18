@@ -1,3 +1,4 @@
+const { transferCFXs } = require('./conflux');
 
 async function main() {
     let cfxsId = process.argv[2];

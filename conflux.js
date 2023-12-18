@@ -1,8 +1,7 @@
-const { Conflux, Drip } = require('js-conflux-sdk');
-const CONFIG = require('./config.json');
+const { Conflux, Drip, address } = require('js-conflux-sdk');
 const { Contract, JsonRpcProvider } = require('ethers');
-const { cfxs } = require('./config.json');
-const { abi } = require('./cfxs.json');
+const { abi } = require('./artifacts/cfxs.json');
+const CONFIG = require('./config.json');
 
 // core space sdk init
 const conflux = new Conflux({
@@ -17,25 +16,34 @@ const account = conflux.wallet.addPrivateKey(privateKey);
 
 // eSpace SDK init
 const provider = new JsonRpcProvider(CONFIG.eSpaceUrl);
-const cfxsContract = new Contract(cfxs, abi);
+const cfxsContract = new Contract(CONFIG.cfxs, abi, provider);
 
 async function transferCFXs(cfxsId, receiver) {
     if (!cfxsId || !receiver) {
         throw new Error('Invalid Inputs');
+    }
+    let info = await cfxsContract.CFXss(cfxsId);
+    
+    if(!info || info.length === 0) {
+        throw new Error('Invalid CFXs id');
+    }
+
+    if (info[1] != address.cfxMappedEVMSpaceAddress(account.address)) {
+        throw new Error('Only the owner of CFXs can transfer it');
     }
 
     let transaction = {
         inputs: [cfxsId],
         outputs: [{
             owner: receiver,
-            amount: 1,
+            amount: info[2],
             data: ''
         }]
     }
 
     const data = cfxsContract.interface.encodeFunctionData('processTransaction', [transaction]);
     
-    const receipt = await CrossSpaceCall.callEVM(cfxs, data).sendTransaction({
+    const receipt = await CrossSpaceCall.callEVM(CONFIG.cfxs, data).sendTransaction({
         from: account.address,
     }).executed();
 
@@ -47,5 +55,6 @@ module.exports = {
     account,
     CrossSpaceCall,
     Drip,
-    transferCFXs
+    transferCFXs,
+    cfxsContract
 }
