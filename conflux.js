@@ -18,25 +18,27 @@ const account = conflux.wallet.addPrivateKey(privateKey);
 const provider = new JsonRpcProvider(CONFIG.eSpaceUrl);
 const cfxsContract = new Contract(CONFIG.cfxs, abi, provider);
 
-async function transferCFXs(cfxsId, receiver) {
+async function transferCFXs(cfxsId, receiver, checkOwner = true) {
     if (!cfxsId || !receiver) {
         throw new Error('Invalid Inputs');
     }
-    let info = await cfxsContract.CFXss(cfxsId);
-    
-    if(!info || info.length === 0) {
-        throw new Error('Invalid CFXs id');
-    }
 
-    if (info[1] != address.cfxMappedEVMSpaceAddress(account.address)) {
-        throw new Error('Only the owner of CFXs can transfer it');
+    if (checkOwner) {
+        let info = await cfxsContract.CFXss(cfxsId);
+        if(!info || info.length === 0) {
+            throw new Error('Invalid CFXs id');
+        }
+
+        if (info[1] != address.cfxMappedEVMSpaceAddress(account.address)) {
+            throw new Error('Only the owner of CFXs can transfer it');
+        }
     }
 
     let transaction = {
         inputs: [cfxsId],
         outputs: [{
             owner: receiver,
-            amount: info[2],
+            amount: !checkOwner ? 1 : info[2],
             data: ''
         }]
     }

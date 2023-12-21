@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 const { program } = require('commander');
 const { address } = require('js-conflux-sdk');
-const { transferCFXs } = require('./conflux');
+const { transferCFXs, account, cfxsContract } = require('./conflux');
 
 program
   .name('cfxs')
   .description('Conflux Core Space CLI for CFXs')
   .version('0.1.0');
 
-program.command('eSpaceMappedAddress')
+program.command('calMappedAddress')
   .description('Get the mapped address of Core Space address')
   .argument('<coreAddress>', 'core space address')
   .action((str, options) => {
@@ -17,6 +17,21 @@ program.command('eSpaceMappedAddress')
         return;
     }
     console.log(`Map address of ${str} is ${address.cfxMappedEVMSpaceAddress(str)}`);
+  });
+
+program.command('mappedAddress')
+  .description('Get the mapped address of Core Space address')
+  .action((options) => {
+    const addr = address.cfxMappedEVMSpaceAddress(account.address);
+    console.log(`Map address of ${account.address} is ${addr}`);
+  });
+
+program.command('cfxsBalance')
+  .description('Get the cfxs balance of mapped address')
+  .action(async (options) => {
+    const addr = address.cfxMappedEVMSpaceAddress(account.address);
+    const balance = await cfxsContract.balanceOf(addr);
+    console.log(`Balance of ${addr} is ${balance}`);
   });
 
 // only support core account transfer it's mapped address owned CFXs

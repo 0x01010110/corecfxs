@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.6.2",
     "commander": "^11.1.0",
     "ethers": "^6.9.0",
     "js-conflux-sdk": "^2.3.0"

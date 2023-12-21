@@ -12,19 +12,35 @@
 
 ### 说明
 
-1. 目前采用固定的 gasPrice 100 GDrip, 可在配置文件中配置
+1. 目前采用固定的 gasPrice 100 GDrip, 可在配置文件(config.json)中配置
 
 ## 获取映射地址
 
 ```shell
-node getMapAddress.js
+./cfxs.js mappedAddress
+```
+
+## 查询映射地址 cfxs 余额
+
+```shell
+./cfxs.js cfxsBalance
 ```
 
 ## 如何提取映射地址的 cfxs
 
-### 提取工具
+### 批量提取
 
-首先获取 cfxsid 铭文的 id, 可通过打铭文的`交易事件`获取, 然后通过如下命令转移 cfxs 到指定地址
+`transferCfxs.js` 是一个批量提取脚本, 可以将映射地址中的 cfxs 转移到指定地址 
+
+```shell
+node transferCfxs.js <receiver-address>
+```
+
+注意该转移脚本使用的 cfxsid 数据是, 爬取的铸造期间链上 `CFXsCreated` 事件, 可能数据有遗漏, 遗漏的 id 可使用下边的工具单独转移.
+
+### 提取单个 cfxs 工具
+
+首先需要获取 `cfxsid` 铭文的 id, 可通过打铭文的`交易事件`获取, 然后通过如下命令转移 cfxs 到指定地址
 
 ```shell
  ./cfxs.js transfer --id <cfxs-id> --receiver <receiver-address>
@@ -32,7 +48,7 @@ node getMapAddress.js
  # Result: success
 ```
 
-### 实现原理
+### 转移实现原理
 
 需要通过 [CrossSpaceCall](https://doc.confluxnetwork.org/docs/espace/build/cross-space-bridge) 内置合约 `callEVM` 方法, 来调用 `cfxs 合约`的 `processTransaction` 来转移 cfxs 代币, 到 eSpace 的任意地址
 
