@@ -35,7 +35,7 @@ program.command('cfxsBalance')
   });
 
 // only support core account transfer it's mapped address owned CFXs
-program.command('transfer')
+/* program.command('transfer')
   .description('Get the mapped address of Core Space address')
   .option('--id <id>', 'CFXs id to transfer')
   .option('-r, --receiver <address>', 'receiver address in eSpace')
@@ -57,6 +57,6 @@ program.command('transfer')
     } catch(e) {
         console.log('Error: ', e.message || e);
     }
-  });
+  }); */
 
 program.parse();

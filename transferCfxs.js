@@ -4,7 +4,7 @@ const axios = require('axios');
 const { waitMilliseconds } = require('./utils.js');
 const mappedAddress = address.cfxMappedEVMSpaceAddress(account.address);
 
-async function main() {
+/* async function main() {
     let receiver = process.argv[2];
     if (!receiver) {
         console.error('Usage: node transferCfxs.js <receiver>');
@@ -40,4 +40,4 @@ async function getIDs(_addr) {
     let res = await axios.get(`http://110.41.179.168:8088?address=${_addr}`);
     const ids = res.data;
     return ids;
-}
+} */
