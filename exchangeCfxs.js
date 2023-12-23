@@ -13,13 +13,13 @@ async function main() {
             // check owner
             let info = await cfxsContract.CFXss(cfxsId);
             if(!info || info.length === 0 || info[1] != mappedAddress) {
-                console.log('Skip id', cfxsId);
+                console.log(`Id ${cfxsId} is not yours`);
                 await waitMilliseconds(100);
                 continue;
             }
             let minted = await cfxsExchangeContract.minted(cfxsId);
             if (minted) {
-                console.log('Skip id', cfxsId);
+                console.log(`Id ${cfxsId} already exchanged`);
                 await waitMilliseconds(100);
                 continue;
             }
@@ -37,7 +37,22 @@ async function main() {
 main().catch(e => console.error(e));
 
 async function getIDs(_addr) {
+    /* 
+    // from pana's service
     let res = await axios.get(`http://110.41.179.168:8088?address=${_addr}`);
     const ids = res.data;
+    return ids; */
+    // from 36u's service
+    let ids = [];
+    const limit = 1000;
+    let startIndex = 0;
+    while(true) {
+        let { count, rows } = await axios.get(`http://test.conins.io/?owner=${address}&startIndex=${startIndex}&size=${limit}`);
+        ids = ids.concat(rows.map(item => item.id));
+        if (rows.length < limit) {
+            break;
+        }
+        startIndex += limit;
+    }
     return ids;
 }
