@@ -1,7 +1,10 @@
-const { transferCFXs, account, cfxsMainContract } = require('./conflux');
-const { address } = require('js-conflux-sdk');
+const { cfxsMainContract, provider } = require('./conflux');
 const { waitMilliseconds, getNewCfxsIds } = require('./utils.js');
-const mappedAddress = address.cfxMappedEVMSpaceAddress(account.address);
+
+const { Wallet } = require('ethers');
+const { eSpacePrivateKey } = require('./config.json');
+const wallet = new Wallet(eSpacePrivateKey, provider);
+cfxsMainContract.connect(wallet);
 
 async function main() {
     let receiver = process.argv[2];
@@ -10,7 +13,7 @@ async function main() {
         return;
     }
 
-    const ids = await getNewCfxsIds(mappedAddress);
+    const ids = await getNewCfxsIds(wallet.address);
     const step = 5;
 
     for(let i = 0; i < ids.length; i += step) {
@@ -34,8 +37,9 @@ async function main() {
 
         try {
             console.log(`Transfer cfxs id ${exIds} to ${receiver}`);
-            const receipt = await transferCFXs(exIds, receiver);
-            console.log(`Result: ${receipt.outcomeStatus === 0 ? 'success' : 'fail'}`);
+            const tx = await cfxsMainContract.transfer(exIds, receiver);
+            await tx.wait();
+            // console.log(`Result: ${tx === 0 ? 'success' : 'fail'}`);
         } catch(e) {
             console.log('Transfer Error', e);
             await waitMilliseconds(500);
@@ -44,4 +48,3 @@ async function main() {
 }
 
 main().catch(e => console.error(e));
-

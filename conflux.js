@@ -3,6 +3,7 @@ const { Contract, JsonRpcProvider } = require('ethers');
 const { abi } = require('./artifacts/cfxs.json');
 const CONFIG = require('./config.json');
 const exchangeContractMeta = require('./artifacts/CFXsTest2Main.json');
+const cfxsMainMeta = require('./artifacts/CFXsMain.json');
 
 // core space sdk init
 const conflux = new Conflux({
@@ -21,34 +22,18 @@ const cfxsContract = new Contract(CONFIG.cfxs, abi, provider);
 
 const cfxsExchangeContract = new Contract(CONFIG.exchangeContract, exchangeContractMeta.abi, provider);
 
-async function transferCFXs(cfxsId, receiver, checkOwner = true) {
+const cfxsMainContract = new Contract(CONFIG.newCfxs, cfxsMainMeta.abi, provider);
+
+async function transferCFXs(cfxsIds, receiver) {
     if (!cfxsId || !receiver) {
         throw new Error('Invalid Inputs');
     }
 
-    if (checkOwner) {
-        let info = await cfxsContract.CFXss(cfxsId);
-        if(!info || info.length === 0) {
-            throw new Error('Invalid CFXs id');
-        }
-
-        if (info[1] != address.cfxMappedEVMSpaceAddress(account.address)) {
-            throw new Error('Only the owner of CFXs can transfer it');
-        }
-    }
-
-    let transaction = {
-        inputs: [cfxsId],
-        outputs: [{
-            owner: receiver,
-            amount: !checkOwner ? 1 : info[2],
-            data: ''
-        }]
-    }
-
-    const data = cfxsContract.interface.encodeFunctionData('processTransaction', [transaction]);
+    const data = cfxsMainContract.interface.encodeFunctionData('transfer(uint[],address)', [cfxsIds, receiver]);
+    console.log(data);
+    return null;
     
-    const receipt = await CrossSpaceCall.callEVM(CONFIG.cfxs, data).sendTransaction({
+    const receipt = await CrossSpaceCall.callEVM(CONFIG.newCfxs, data).sendTransaction({
         from: account.address,
     }).executed();
 
@@ -75,5 +60,7 @@ module.exports = {
     transferCFXs,
     cfxsContract,
     exchangeCFXs,
-    cfxsExchangeContract
+    cfxsExchangeContract,
+    cfxsMainContract,
+    provider,
 }

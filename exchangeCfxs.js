@@ -11,6 +11,7 @@ async function main() {
         try {
             let exIds = [];
             for(let j = 0; j < step; j++) {
+                if (i + j >= ids.length) break;
                 let id = ids[i + j];
                 if (id === '0') continue;
                 let cfxsId = parseInt(id);
@@ -29,6 +30,7 @@ async function main() {
                 }
                 exIds.push(cfxsId);
             }
+            
             if (exIds.length === 0) continue;
             console.log(`Exchange cfxs id ${exIds}`);
             const receipt = await exchangeCFXs(exIds);

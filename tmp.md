@@ -67,3 +67,35 @@ const receipt = await CrossSpaceCall.callEVM(CONFIG.cfxs, data).sendTransaction(
     from: account.address,
 }).executed();
 ```
+
+
+
+
+
+
+
+```shell
+Transfer Error Error: missing revert data (action="call", data=null, reason=null, transaction={ "data": "0xd06d13ba0000000000000000000000000000000000000000000000000000000000391f73", "to": "0xC6e865c213C89Ca42A622c5572D19f00d84d7a16" }, invocation=null, revert=null, code=CALL_EXCEPTION, version=6.9.0)
+    at makeError (/Users/panaw/Projects/cfxs/corecfxs/node_modules/ethers/lib.commonjs/utils/errors.js:129:21)
+    at getBuiltinCallException (/Users/panaw/Projects/cfxs/corecfxs/node_modules/ethers/lib.commonjs/abi/abi-coder.js:104:37)
+    at AbiCoder.getBuiltinCallException (/Users/panaw/Projects/cfxs/corecfxs/node_modules/ethers/lib.commonjs/abi/abi-coder.js:201:16)
+    at JsonRpcProvider.getRpcError (/Users/panaw/Projects/cfxs/corecfxs/node_modules/ethers/lib.commonjs/providers/provider-jsonrpc.js:629:43)
+    at /Users/panaw/Projects/cfxs/corecfxs/node_modules/ethers/lib.commonjs/providers/provider-jsonrpc.js:269:45
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+  code: 'CALL_EXCEPTION',
+  action: 'call',
+  data: null,
+  reason: null,
+  transaction: {
+    to: '0xC6e865c213C89Ca42A622c5572D19f00d84d7a16',
+    data: '0xd06d13ba0000000000000000000000000000000000000000000000000000000000391f73'
+  },
+  invocation: null,
+  revert: null,
+  shortMessage: 'missing revert data',
+  info: {
+    error: { code: -32000, message: 'failed after 0 retries: timeout' },
+    payload: { method: 'eth_call', params: [Array], id: 13271, jsonrpc: '2.0' }
+  }
+}
+```
