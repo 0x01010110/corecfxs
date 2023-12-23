@@ -1,10 +1,9 @@
-const { cfxsMainContract, provider } = require('./conflux');
+const { cfxsMainContract, wallet } = require('./conflux');
 const { waitMilliseconds, getNewCfxsIds } = require('./utils.js');
 
-const { Wallet } = require('ethers');
-const { eSpacePrivateKey } = require('./config.json');
-const wallet = new Wallet(eSpacePrivateKey, provider);
 cfxsMainContract.connect(wallet);
+
+const STEP = 5;
 
 async function main() {
     let receiver = process.argv[2];
@@ -14,28 +13,32 @@ async function main() {
     }
 
     const ids = await getNewCfxsIds(wallet.address);
-    const step = 5;
-
-    for(let i = 0; i < ids.length; i += step) {
-        let exIds = [];
-
-        for(let j = 0; j < step; j++) {
-            if (i + j >= ids.length) break;
-            let id = ids[i+j];
-            if (id === '0') continue;
-            let cfxsId = parseInt(id);
-            
-            // check owner
-            let info = await cfxsMainContract.CFXss(cfxsId);
-            if(!info || info.length === 0 || info[1] != mappedAddress) {
-                await waitMilliseconds(100);
-                console.log(`Id ${cfxsId} is not yours`)
-                continue;
-            }
-            exIds.push(cfxsId);
-        }
-
+    
+    for(let i = 0; i < ids.length; i += STEP) {
         try {
+            // prepare ids
+            let exIds = [];
+            for(let j = 0; j < STEP; j++) {
+                if (i + j >= ids.length) break;
+
+                let id = ids[i+j];
+                if (id === '0') continue;
+                let cfxsId = parseInt(id);
+                
+                // check owner
+                let info = await cfxsMainContract.CFXss(cfxsId);
+                if(!info || info.length === 0 || info[1] != mappedAddress) {
+                    await waitMilliseconds(100);
+                    console.log(`Id ${cfxsId} is not yours`)
+                    continue;
+                }
+                
+                exIds.push(cfxsId);
+            }
+
+            if (exIds.length === 0) continue;
+
+            //
             console.log(`Transfer cfxs id ${exIds} to ${receiver}`);
             const tx = await cfxsMainContract.transfer(exIds, receiver);
             await tx.wait();

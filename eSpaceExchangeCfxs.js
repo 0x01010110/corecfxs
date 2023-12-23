@@ -1,19 +1,13 @@
-const { transferCFXs, account, cfxsMainContract } = require('./conflux');
-const { address } = require('js-conflux-sdk');
-const { waitMilliseconds, getNewCfxsIds } = require('./utils.js');
-const mappedAddress = address.cfxMappedEVMSpaceAddress(account.address);
+const { cfxsExchangeContract, cfxsContract, wallet } = require('./conflux');
+const { waitMilliseconds, getIDs } = require('./utils.js');
+
+cfxsExchangeContract.connect(wallet);
 
 const STEP = 5;
 
 async function main() {
-    let receiver = process.argv[2];
-    if (!receiver) {
-        console.error('Usage: node transferCfxs.js <receiver>');
-        return;
-    }
+    const ids = await getIDs(wallet.address);
 
-    const ids = await getNewCfxsIds(mappedAddress);
-    
     for(let i = 0; i < ids.length; i += STEP) {
         try {
             // prepare batch ids
@@ -26,27 +20,27 @@ async function main() {
                 let cfxsId = parseInt(id);
                 
                 // check owner
-                let info = await cfxsMainContract.CFXss(cfxsId);
+                let info = await cfxsContract.CFXss(cfxsId);
                 if(!info || info.length === 0 || info[1] != mappedAddress) {
                     await waitMilliseconds(100);
                     console.log(`Id ${cfxsId} is not yours`)
                     continue;
                 }
-
+                
                 exIds.push(cfxsId);
             }
-            
             if (exIds.length === 0) continue;
 
-            console.log(`Transfer cfxs id ${exIds} to ${receiver}`);
-            const receipt = await transferCFXs(exIds, receiver);
-            console.log(`Result: ${receipt.outcomeStatus === 0 ? 'success' : 'fail'}`);
+            // exchange
+            console.log(`Exchange cfxs id ${exIds}`);
+            const tx = await cfxsExchangeContract.ExTestToMain(exIds);
+            await tx.wait();
+            // console.log(`Result: ${tx === 0 ? 'success' : 'fail'}`);
         } catch(e) {
-            console.log('Transfer Error', e);
+            console.log('Exchange Error', e);
             await waitMilliseconds(500);
         }
     }
 }
 
 main().catch(e => console.error(e));
-
