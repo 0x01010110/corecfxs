@@ -2,6 +2,7 @@ const { Conflux, Drip, address } = require('js-conflux-sdk');
 const { Contract, JsonRpcProvider } = require('ethers');
 const { abi } = require('./artifacts/cfxs.json');
 const CONFIG = require('./config.json');
+const exchangeContractMeta = require('./artifacts/CFXsTest2Main.json');
 
 // core space sdk init
 const conflux = new Conflux({
@@ -17,6 +18,8 @@ const account = conflux.wallet.addPrivateKey(privateKey);
 // eSpace SDK init
 const provider = new JsonRpcProvider(CONFIG.eSpaceUrl);
 const cfxsContract = new Contract(CONFIG.cfxs, abi, provider);
+
+const cfxsExchangeContract = new Contract(CONFIG.exchangeContract, exchangeContractMeta.abi, provider);
 
 async function transferCFXs(cfxsId, receiver, checkOwner = true) {
     if (!cfxsId || !receiver) {
@@ -52,11 +55,25 @@ async function transferCFXs(cfxsId, receiver, checkOwner = true) {
     return receipt;
 }
 
+async function exchangeCFXs(cfxsIds = []) {
+    if (!cfxsIds || cfxsIds.length === 0) return null;
+
+    const data = cfxsExchangeContract.interface.encodeFunctionData('ExTestToMain', [cfxsIds]);
+    
+    const receipt = await CrossSpaceCall.callEVM(CONFIG.exchangeContract, data).sendTransaction({
+        from: account.address,
+    }).executed();
+
+    return receipt;
+}
+
 module.exports = {
     conflux,
     account,
     CrossSpaceCall,
     Drip,
     transferCFXs,
-    cfxsContract
+    cfxsContract,
+    exchangeCFXs,
+    cfxsExchangeContract
 }

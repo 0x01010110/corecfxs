@@ -4,5 +4,6 @@
     "url": "https://main.confluxrpc.com",
     "networkId": 1029,
     "cfxs": "0xc6e865c213c89ca42a622c5572d19f00d84d7a16",
-    "eSpaceUrl": "https://evm.confluxrpc.com"
+    "eSpaceUrl": "https://evm.confluxrpc.com",
+    "exchangeContract": "0x5c3c1a119300669990863861a854616ecb04b463"
 }
