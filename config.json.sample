@@ -7,5 +7,5 @@
     "eSpaceUrl": "https://evm.confluxrpc.com",
     "exchangeContract": "0x5c3c1a119300669990863861a854616ecb04b463",
     "newCfxs": "0xd3a4d837e0a7b40de0b4024fa0f93127dd47b8b8",
-    "eSpacePrivateKey": ""
+    "eSpacePrivateKey": "0x"
 }

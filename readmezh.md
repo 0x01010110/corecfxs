@@ -26,6 +26,10 @@
 ./cfxs.js cfxsBalance
 ```
 
+## 新 CFXs 合约地址
+
+原 CFXs 合约为测试合约, 最终需要兑换成新 CFXs 合约, 合约地址为: `0xd3a4d837e0a7b40de0b4024fa0f93127dd47b8b8`
+
 ## 查询映射地址新 cfxs 合约余额
 
 ```shell
@@ -54,4 +58,12 @@ node exchangeCfxs.js
 
 ```shell
 node transferCfxs.js <receiver-address>
+```
+
+## eSpace 账户的 CFXs 兑换新 CFXs
+
+需要先在 config.json 中配置 eSpace 账户的私钥, 配置项为 `eSpacePrivateKey`, 然后执行如下脚本:
+
+```shell
+node eSpaceExchangeCfxs.js
 ```

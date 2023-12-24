@@ -30,13 +30,11 @@ function getWallet() {
 }
 
 async function transferCFXs(cfxsIds, receiver) {
-    if (!cfxsId || !receiver) {
+    if (!cfxsIds || !receiver) {
         throw new Error('Invalid Inputs');
     }
 
     const data = cfxsMainContract.interface.encodeFunctionData('transfer(uint[],address)', [cfxsIds, receiver]);
-    console.log(data);
-    return null;
     
     const receipt = await CrossSpaceCall.callEVM(CONFIG.newCfxs, data).sendTransaction({
         from: account.address,

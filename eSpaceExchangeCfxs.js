@@ -2,7 +2,7 @@ const { cfxsExchangeContract, cfxsContract, getWallet } = require('./conflux');
 const { waitMilliseconds, getIDs } = require('./utils.js');
 
 const wallet = getWallet();
-cfxsExchangeContract.connect(wallet);
+let cfxsExchangeContract1 = cfxsExchangeContract.connect(wallet);
 
 const STEP = 5;
 
@@ -22,7 +22,7 @@ async function main() {
                 
                 // check owner
                 let info = await cfxsContract.CFXss(cfxsId);
-                if(!info || info.length === 0 || info[1] != mappedAddress) {
+                if(!info || info.length === 0 || info[1] != wallet.address) {
                     await waitMilliseconds(100);
                     console.log(`Id ${cfxsId} is not yours`)
                     continue;
@@ -34,7 +34,7 @@ async function main() {
 
             // exchange
             console.log(`Exchange cfxs id ${exIds}`);
-            const tx = await cfxsExchangeContract.ExTestToMain(exIds);
+            const tx = await cfxsExchangeContract1.ExTestToMain(exIds);
             await tx.wait();
             // console.log(`Result: ${tx === 0 ? 'success' : 'fail'}`);
         } catch(e) {
