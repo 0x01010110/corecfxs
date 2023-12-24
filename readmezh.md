@@ -25,3 +25,33 @@
 ```shell
 ./cfxs.js cfxsBalance
 ```
+
+## 查询映射地址新 cfxs 合约余额
+
+```shell
+./cfxs.js newCfxsBalance
+```
+
+## 兑换 Core Space 打到的 CFXs
+
+更新最新代码, 然后参照 config.json.sample 更新 config.json 文件(增加了四个配置项), 然后执行:
+
+```shell
+node exchangeCfxs.js
+```
+
+该脚本会从索引服务获取账户打到的 CFXs id, 然后兑换成新的 CFXs.
+
+说明:
+
+1. 兑换过程中可能因为 RPC 网络问题导致部分兑换失败, 可以多次执行该脚本, 直到所有 CFXs 兑换成功.
+2. 可通过比较新旧 CFXs 合约余额来判断是否兑换成功, 两者相等则表示全部兑换成功.
+3. 兑换的新 CFXs 余额还在 Core 账户的映射地址中, 可通过下边脚本, 转移到 eSpace 的 EOS 账户中.
+
+## 转移新 CFXs 到 eSpace 的 EOS 账户
+
+执行如下脚本, 并指定接受账户, 请注意接受账户为 eSpace EOA 账户:
+
+```shell
+node transferCfxs.js <receiver-address>
+```

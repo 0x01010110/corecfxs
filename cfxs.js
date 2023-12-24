@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const { program } = require('commander');
 const { address } = require('js-conflux-sdk');
-const { transferCFXs, account, cfxsContract } = require('./conflux');
+const { transferCFXs, account, cfxsContract, cfxsMainContract } = require('./conflux');
 
 program
   .name('cfxs')
@@ -31,6 +31,14 @@ program.command('cfxsBalance')
   .action(async (options) => {
     const addr = address.cfxMappedEVMSpaceAddress(account.address);
     const balance = await cfxsContract.balanceOf(addr);
+    console.log(`Balance of ${addr} is ${balance}`);
+  });
+
+program.command('newCfxsBalance')
+  .description('Get the new cfxs balance of mapped address')
+  .action(async (options) => {
+    const addr = address.cfxMappedEVMSpaceAddress(account.address);
+    const balance = await cfxsMainContract.balanceOf(addr);
     console.log(`Balance of ${addr} is ${balance}`);
   });
 

@@ -1,6 +1,6 @@
 const { transferCFXs, account, cfxsMainContract } = require('./conflux');
 const { address } = require('js-conflux-sdk');
-const { waitMilliseconds, getNewCfxsIds } = require('./utils.js');
+const { waitMilliseconds, getIDs } = require('./utils.js');
 const mappedAddress = address.cfxMappedEVMSpaceAddress(account.address);
 
 const STEP = 5;
@@ -12,7 +12,7 @@ async function main() {
         return;
     }
 
-    const ids = await getNewCfxsIds(mappedAddress);
+    const ids = await getIDs(mappedAddress);
     
     for(let i = 0; i < ids.length; i += STEP) {
         try {
