@@ -24,7 +24,10 @@ const cfxsExchangeContract = new Contract(CONFIG.exchangeContract, exchangeContr
 
 const cfxsMainContract = new Contract(CONFIG.newCfxs, cfxsMainMeta.abi, provider);
 
-const wallet = new Wallet(CONFIG.eSpacePrivateKey || '0x', provider);
+function getWallet() {
+    const wallet = new Wallet(CONFIG.eSpacePrivateKey, provider);
+    return wallet;
+}
 
 async function transferCFXs(cfxsIds, receiver) {
     if (!cfxsId || !receiver) {
@@ -65,5 +68,5 @@ module.exports = {
     cfxsExchangeContract,
     cfxsMainContract,
     provider,
-    wallet,
+    getWallet,
 }

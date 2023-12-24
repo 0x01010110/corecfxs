@@ -46,6 +46,8 @@ async function main() {
             await waitMilliseconds(500);
         }
     }
+
+    console.log('Done');
 }
 
 main().catch(e => console.error(e));

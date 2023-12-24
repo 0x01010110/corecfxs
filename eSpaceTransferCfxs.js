@@ -1,6 +1,7 @@
-const { cfxsMainContract, wallet } = require('./conflux');
+const { cfxsMainContract, getWallet } = require('./conflux');
 const { waitMilliseconds, getNewCfxsIds } = require('./utils.js');
 
+const wallet = getWallet();
 cfxsMainContract.connect(wallet);
 
 const STEP = 5;
