@@ -7,7 +7,7 @@
 1. 安装 node.js 环境
 2. 使用 git 下载本项目: `git clone https://github.com/0x01010110/corecfxs.git`
 3. npm install
-4. 创建配置文件 `cp config.json.sample config.json`(Linux 命令). 修改 config.json 文件的 `privateKey` 填入私钥. 需要确保账户里有足够的 CFX 用于支付手续费 
+4. 创建配置文件 `cp config.json.sample config.json`(Linux 命令). 修改 config.json 文件的 `privateKey` 填入私钥(core 空间账户私钥). 需要确保账户里有足够的 CFX 用于支付手续费 
 5. 启动脚本  `node index.js`
 
 ### 说明
