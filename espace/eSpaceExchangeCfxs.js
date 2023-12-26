@@ -36,7 +36,6 @@ async function main() {
             console.log(`Exchange cfxs id ${exIds}`);
             const tx = await cfxsExchangeContract1.ExTestToMain(exIds);
             await tx.wait();
-            // console.log(`Result: ${tx === 0 ? 'success' : 'fail'}`);
         } catch(e) {
             console.log('Exchange Error', e);
             await waitMilliseconds(500);
