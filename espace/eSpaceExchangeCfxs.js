@@ -7,7 +7,7 @@ let cfxsExchangeContract1 = cfxsExchangeContract.connect(wallet);
 const STEP = 5;
 
 async function main() {
-    const ids = await getIDs(wallet.address);
+    const ids = await getTransferredIds(wallet.address);
 
     for(let i = 0; i < ids.length; i += STEP) {
         try {
@@ -44,3 +44,14 @@ async function main() {
 }
 
 main().catch(e => console.error(e));
+
+async function getTransferredIds(address) {
+    let ids = [];
+    const data = require('../index-data/cfxs-transfered-ids.json')
+    for(let id in data) {
+        if (data[id].toLowerCase() === address.toLowerCase()) {
+            ids.push(id);
+        }
+    }
+    return ids;
+}
