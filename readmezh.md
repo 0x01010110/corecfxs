@@ -65,5 +65,5 @@ node transferCfxs.js <receiver-address>
 需要先在 config.json 中配置 eSpace 账户的私钥, 配置项为 `eSpacePrivateKey`, 然后执行如下脚本:
 
 ```shell
-node eSpaceExchangeCfxs.js
+node espace/eSpaceExchangeCfxs.js
 ```

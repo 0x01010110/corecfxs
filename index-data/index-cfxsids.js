@@ -1,6 +1,6 @@
-const {cfxsContract} = require('./conflux.js');
+const {cfxsContract} = require('../conflux.js');
 const fs = require('fs');
-const { waitMilliseconds } = require('./utils.js');
+const { waitMilliseconds } = require('../utils.js');
 
 // 统计 cfxs 合约的持有人数量
 const holderMap = {};
