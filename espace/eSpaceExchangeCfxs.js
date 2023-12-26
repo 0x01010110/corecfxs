@@ -19,6 +19,13 @@ async function main() {
                 let id = ids[i+j];
                 if (id === '0') continue;
                 let cfxsId = parseInt(id);
+
+                let minted = await cfxsExchangeContract.minted(cfxsId);
+                if (minted) {
+                    console.log(`Id ${cfxsId} already exchanged`);
+                    await waitMilliseconds(100);
+                    continue;
+                }
                 
                 // check owner
                 let info = await cfxsContract.CFXss(cfxsId);
