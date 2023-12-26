@@ -1,9 +1,12 @@
-const { Conflux, Drip, address } = require('js-conflux-sdk');
-const { Contract, JsonRpcProvider, Wallet } = require('ethers');
-const { abi } = require('./artifacts/cfxs.json');
+const { Conflux, Drip } = require('js-conflux-sdk');
 const CONFIG = require('./config.json');
-const exchangeContractMeta = require('./artifacts/CFXsTest2Main.json');
-const cfxsMainMeta = require('./artifacts/CFXsMain.json');
+const {
+    cfxsMainContract,
+    cfxsContract,
+    cfxsExchangeContract,
+    provider,
+    getWallet,
+} = require('./espace/eSpace');
 
 // core space sdk init
 const conflux = new Conflux({
@@ -15,19 +18,6 @@ const CrossSpaceCall = conflux.InternalContract('CrossSpaceCall');
 
 const privateKey = CONFIG.privateKey;
 const account = conflux.wallet.addPrivateKey(privateKey);
-
-// eSpace SDK init
-const provider = new JsonRpcProvider(CONFIG.eSpaceUrl);
-const cfxsContract = new Contract(CONFIG.cfxs, abi, provider);
-
-const cfxsExchangeContract = new Contract(CONFIG.exchangeContract, exchangeContractMeta.abi, provider);
-
-const cfxsMainContract = new Contract(CONFIG.newCfxs, cfxsMainMeta.abi, provider);
-
-function getWallet() {
-    const wallet = new Wallet(CONFIG.eSpacePrivateKey, provider);
-    return wallet;
-}
 
 async function transferCFXs(cfxsIds, receiver) {
     if (!cfxsIds || !receiver) {
