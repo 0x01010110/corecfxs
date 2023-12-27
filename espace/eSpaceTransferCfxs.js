@@ -4,7 +4,7 @@ const { waitMilliseconds, getNewCfxsIds } = require('../utils.js');
 const wallet = getWallet();
 let cfxsMainContract1 = cfxsMainContract.connect(wallet);
 
-const STEP = 5;
+const STEP = 30;
 
 async function main() {
     let receiver = process.argv[2];
