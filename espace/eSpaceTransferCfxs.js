@@ -41,7 +41,7 @@ async function main() {
 
             //
             console.log(`Transfer cfxs id ${exIds} to ${receiver}`);
-            const tx = await cfxsMainContract1.transfer(exIds, receiver);
+            const tx = await cfxsMainContract1['transfer(uint256[],address)'](exIds, receiver);
             await tx.wait();
             // console.log(`Result: ${tx === 0 ? 'success' : 'fail'}`);
         } catch(e) {

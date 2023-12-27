@@ -2,3 +2,4 @@ node_modules
 config.json
 .DS_Store
 tmp1.md
+tmp.js
