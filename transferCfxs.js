@@ -3,7 +3,7 @@ const { address } = require('js-conflux-sdk');
 const { waitMilliseconds, getIDs } = require('./utils.js');
 const mappedAddress = address.cfxMappedEVMSpaceAddress(account.address);
 
-const STEP = 5;
+const STEP = 8;
 
 async function main() {
     let receiver = process.argv[2];

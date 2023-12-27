@@ -4,7 +4,7 @@ const { waitMilliseconds, getIDs } = require('../utils.js');
 const wallet = getWallet();
 let cfxsExchangeContract1 = cfxsExchangeContract.connect(wallet);
 
-const STEP = 5;
+const STEP = 20;
 
 async function main() {
     const ids = await getIDs(wallet.address);
