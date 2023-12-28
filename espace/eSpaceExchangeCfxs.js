@@ -1,5 +1,5 @@
 const { cfxsExchangeContract, cfxsContract, getWallet } = require('../conflux');
-const { waitMilliseconds, getIDs } = require('../utils.js');
+const { waitMilliseconds, getIDsFromAnother } = require('../utils.js');
 
 const wallet = getWallet();
 let cfxsExchangeContract1 = cfxsExchangeContract.connect(wallet);
@@ -7,7 +7,7 @@ let cfxsExchangeContract1 = cfxsExchangeContract.connect(wallet);
 const STEP = 20;
 
 async function main() {
-    const ids = await getIDs(wallet.address);
+    const ids = await getIDsFromAnother(wallet.address);
 
     for(let i = 0; i < ids.length; i += STEP) {
         try {

@@ -19,6 +19,8 @@ async function getNewCfxsIds(_addr) {
     return ids;
 }
 
+
+
 async function getIDs(_addr) {
     let ids = [];
     const limit = 1000;
@@ -34,8 +36,14 @@ async function getIDs(_addr) {
     return ids;
 }
 
-exports.getNewCfxsIds = getNewCfxsIds;
+async function getIDsFromAnother(_addr) {
+    let { data } = await axios.get(`http://110.41.179.168:8088/?address=${_addr}`);   
+    return data;
+}
 
-exports.getIDs = getIDs;
-
-exports.waitMilliseconds = waitMilliseconds;
+module.exports = {
+    getIDsFromAnother,
+    getIDs,
+    getNewCfxsIds,
+    waitMilliseconds
+};
