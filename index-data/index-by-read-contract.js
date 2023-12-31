@@ -1,4 +1,4 @@
-const {cfxsMainContract} = require('../conflux.js');
+const {cfxsMainContract} = require('../espace/eSpace.js');
 const { waitMilliseconds } = require('../utils.js');
 const fs = require('fs');
 let result = {};
